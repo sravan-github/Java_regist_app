@@ -1,0 +1,46 @@
+pipeline {
+    agent any 
+    environment {
+        registry = "sravangcpdocker/login"
+        registryCredential = 'dockerhub_id'
+        dockerImage = ''
+    }
+    
+    stages {
+        stage('Cloning Git') {
+            steps {
+                sh 'git clone https://github.com/sravan-github/Java_regist_app.git'
+                sh 'pwd'
+                sh 'cd Java_regist_app'
+                sh 'pwd && ls -ltr'
+            }
+        }
+    
+    // Building Docker images
+    stage('Building image') {
+      steps{
+        script {
+            sh 'cp -rf /var/lib/jenkins/workspace/login/Java_regist_app/* /var/lib/jenkins/workspace/login/ '
+          dockerImage = docker.build registry
+        }
+      }
+    }
+    
+     // Uploading Docker images into Docker Hub
+    stage('Upload Image') {
+     steps{    
+         script {
+            docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+            }
+        }
+      }
+    }
+ }
+
+ post {
+        always {
+            cleanWs deleteDirs: true
+        }
+     }
+}
