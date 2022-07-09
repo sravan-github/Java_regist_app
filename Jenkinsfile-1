@@ -11,9 +11,9 @@ pipeline {
     stage('mvn package') {
       steps {
         sh '''
-            git clone https://github.com/sravan-github/spring-boot-hello-world.git
+            git clone https://github.com/sravan-github/Java_regist_app.git
             ls -l
-            cd spring-boot-hello-world
+            cd Java_regist_app
             mvn package
             ls -l
             cd target
