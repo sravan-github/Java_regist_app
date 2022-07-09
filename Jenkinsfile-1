@@ -18,6 +18,7 @@ pipeline {
             ls -l
             cd target
             cp account-1.0-SNAPSHOT.war login.war
+            pwd
             ls -ltr
             '''
          //ansiblePlaybook credentialsId: 'ansible-key1', disableHostKeyChecking: true, installation: 'ansible', inventory: 'inventory/mariadb.hosts', playbook: 'install-book.yml'
